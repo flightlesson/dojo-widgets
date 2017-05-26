@@ -48,7 +48,7 @@ define(["dojo/_base/declare",
 
 	chosenAdd: function() { console.log("chosenAdd"); return false; },
 
-	chosenRemove: function() { console.log("chosenAdd"); return false; },
+	ChosenRemove: function() { console.log("chosenAdd"); return false; },
 
 	postCreate: function() {
             this.initialCandidateList.innerHTML = "<option>dog</option><option>cat</option>";

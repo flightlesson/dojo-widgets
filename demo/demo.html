@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.12.2/dijit/themes/claro/claro.css">
+</head>
+<body class="claro">
+<script src="https://ajax.googleapis.com/ajax/libs/dojo/1.12.2/dojo/dojo.js" data-dojo-config="async: true"></script>
+<script>
+        require([
+            'dojo/dom',
+            'dojo/dom-construct',
+            'dojo/domReady!'
+        ], function (dom, domConstruct) {
+            //var greetingNode = dom.byId('greeting');
+            //domConstruct.place('<em>Dojo ready!</em>', greetingNode);
+            dom.byId('greeting').innerHTML = "<em>Dojo is ready!</em>";
+        });
+</script>
+<script>
+       require([
+            "dojo/parser",
+            "dijit/form/Form","dijit/form/Select", "dijit/form/Button","dojo/domReady!"
+       ], function(parser) {
+           parser.parse();
+       });
+</script>
+
+<h1 id="greeting">???</h1>
+
+
+<h2>HTML select</h2>
+
+<div data-dojo-type="dijit/form/Form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    alert(JSON.stringify(e));
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        console.log("click");
+        dom.byId('sel1-value').innerHTML = "click";
+        if (this.validate()) {
+        }
+    });
+    false;
+  </script>
+  <label for="sel1"/>
+  <select multiple="true" name="sel1">
+    <option value="H">Hydrogen</option>
+    <option value="He">Helium</option>
+    <option value="Li">Lithium</option>
+    <option value="Be">Beryllium</option>
+    <option value="B">Boron</option>
+    <option value="C">Carbon</option>
+    <option value="N">Nitrogen</option>
+    <option value="O">Oxygen</option>
+    <option value="F">Flourine</option>
+    <option value="Ne">Neon</option>
+    <option value="Na">Sodium</option>
+    <option value="Mg">Magnesium</option>
+  </select>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+<p>Current value:</p>  
+<div id="sel1-value">
+</div>
+
+<h2>dijit/form/Select</h2>
+
+<div data-dojo-type="dijit/form/Form">
+  <script type="dojo/on" data-dojo-event="submit">
+    if (this.validate()) {
+      
+    }
+  </script>
+  <label for="sel2"/>
+  <select data-dojo-type="dijit/form/Select" multiple="true" name="sel2">
+    <option value="H">Hydrogen</option>
+    <option value="He">Helium</option>
+    <option value="Li">Lithium</option>
+    <option value="Be">Beryllium</option>
+    <option value="B">Boron</option>
+    <option value="C">Carbon</option>
+    <option value="N">Nitrogen</option>
+    <option value="O">Oxygen</option>
+    <option value="F">Flourine</option>
+    <option value="Ne">Neon</option>
+    <option value="Na">Sodium</option>
+    <option value="Mg">Magnesium</option>
+  </select>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+<p>Current value:</p>  
+<div id="sel2-value">
+</div>
+</body>
+</html>
+
