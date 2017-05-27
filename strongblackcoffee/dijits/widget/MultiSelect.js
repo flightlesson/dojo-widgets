@@ -3,7 +3,7 @@ define(["dojo/_base/declare",
         "dijit/_TemplatedMixin",
         "dojo/store/JsonRest",
         "dojo/data/ObjectStore",
-        "dojo/text!./templates/RoleMultiSelect.html"
+        "dojo/text!./templates/MultiSelect.html"
 ], function(declare, WidgetBase, TemplatedMixin, JsonRest, ObjectStore, template){
     // module:
     //		strongblackcoffee/dijit/MultiSelect
@@ -27,7 +27,7 @@ define(["dojo/_base/declare",
 
 	// name: String
 	//	The form variable's name.
-	name: "you-didnt-set-me",+
+	name: "you-didnt-set-me",
 
 	// candidatesLabel: String
 	//	Label for the candidates list. Default is "candidates".
@@ -44,11 +44,12 @@ define(["dojo/_base/declare",
 	templateString: template,
 
 	constructor: function() {
+	    console.log("***** MultiSelect constructor *****");
 	},
 
 	chosenAdd: function() { console.log("chosenAdd"); return false; },
 
-	ChosenRemove: function() { console.log("chosenAdd"); return false; },
+	chosenRemove: function() { console.log("chosenAdd"); return false; },
 
 	postCreate: function() {
             this.initialCandidateList.innerHTML = "<option>dog</option><option>cat</option>";

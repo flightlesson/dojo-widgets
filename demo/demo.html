@@ -4,6 +4,13 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.12.2/dijit/themes/claro/claro.css">
 </head>
 <body class="claro">
+<script>
+var dojoConfig={
+packages: [
+    {name: 'strongblackcoffee', location: location.pathname.replace(/\/[^/]+$/,'/../strongblackcoffee')}
+]
+};
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.12.2/dojo/dojo.js" data-dojo-config="async: true"></script>
 <script>
         require([
@@ -30,15 +37,13 @@
 
 <h2>HTML select</h2>
 
-<div data-dojo-type="dijit/form/Form">
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel1form">
   <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
-    alert(JSON.stringify(e));
     e.preventDefault();
     require([
         'dojo/dom'
     ],function(dom){
-        console.log("click");
-        dom.byId('sel1-value').innerHTML = "click";
+        dom.byId('sel1-value').innerHTML = "<pre>" + JSON.stringify(sel1form.getValues()) + "</pre>";
         if (this.validate()) {
         }
     });
@@ -69,11 +74,15 @@
 
 <h2>dijit/form/Select</h2>
 
-<div data-dojo-type="dijit/form/Form">
-  <script type="dojo/on" data-dojo-event="submit">
-    if (this.validate()) {
-      
-    }
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel2form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel2-value').innerHTML = "<pre>" + JSON.stringify(sel2form.getValues()) + "</pre>";
+    });
+    false;
   </script>
   <label for="sel2"/>
   <select data-dojo-type="dijit/form/Select" multiple="true" name="sel2">
@@ -97,6 +106,80 @@
 <p>Current value:</p>  
 <div id="sel2-value">
 </div>
+ 
+
+<h2>dijit/form/MultiSelect</h2>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel3form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel3-value').innerHTML = "<pre>" + JSON.stringify(sel3form.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+  <label for="sel3"/>
+  <select data-dojo-type="dijit/form/MultiSelect" multiple="true" name="sel3">
+    <option value="H">Hydrogen</option>
+    <option value="He">Helium</option>
+    <option value="Li">Lithium</option>
+    <option value="Be">Beryllium</option>
+    <option value="B">Boron</option>
+    <option value="C">Carbon</option>
+    <option value="N">Nitrogen</option>
+    <option value="O">Oxygen</option>
+    <option value="F">Flourine</option>
+    <option value="Ne">Neon</option>
+    <option value="Na">Sodium</option>
+    <option value="Mg">Magnesium</option>
+  </select>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+<p>Current value:</p>  
+<div id="sel3-value">
+</div>
+
+<h2>strongblackcoffee/dijit/MultiSelect</h2>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel4form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel4-value').innerHTML = "<pre>" + JSON.stringify(sel4form.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+  <label for="sel4"/>
+  <select data-dojo-type="strongblackcoffee/dijits/widget/MultiSelect" multiple="true" name="sel4">
+    <option value="H">Hydrogen</option>
+    <option value="He">Helium</option>
+    <option value="Li">Lithium</option>
+    <option value="Be">Beryllium</option>
+    <option value="B">Boron</option>
+    <option value="C">Carbon</option>
+    <option value="N">Nitrogen</option>
+    <option value="O">Oxygen</option>
+    <option value="F">Flourine</option>
+    <option value="Ne">Neon</option>
+    <option value="Na">Sodium</option>
+    <option value="Mg">Magnesium</option>
+  </select>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+<p>Current value:</p>  
+<div id="sel4-value">
+</div>
+
+
+
 </body>
 </html>
 
