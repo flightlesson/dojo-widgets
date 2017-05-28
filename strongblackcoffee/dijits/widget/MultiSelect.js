@@ -15,8 +15,7 @@ define(["dojo/_base/declare",
     //
 
     
-   //return declare([WidgetBase,TemplatedMixin,FormValueMixin],{
-    return declare([WidgetBase,TemplatedMixin],{
+    return declare([WidgetBase,TemplatedMixin,FormValueMixin],{
 	// summary:
 	//	Moves items between candidate list and selected list.
 	//
@@ -51,6 +50,18 @@ define(["dojo/_base/declare",
     
 	templateString: template,
 
+	options: null,
+	addOption: function(opts) {
+	    // summary:
+	    //		When opts is an HTMLoption node:
+	    //          When opts is an array of HTMLoption node:
+	    //          When opts is a {value:"v",label:'x',selected:false} object:
+	    //          When opts is an array of {value:"v",label:'x',selected:false} objects:
+	    //          When opts is nil:
+	    array.forEach(lang.isArrayLike(opts) ? opts : [opts], function(opt) {this._addOption(opt);});
+	},
+	_addOption: function(opt) {
+	},
 
 	constructor: function(params,srcNodeRef) {
 	    console.log("constructor");

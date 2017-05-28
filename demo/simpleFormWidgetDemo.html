@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.12.2/dijit/themes/claro/claro.css">
+</head>
+<body class="claro">
+<script>
+var dojoConfig={
+packages: [
+    {name: 'strongblackcoffee', location: location.pathname.replace(/\/[^/]+$/,'/../strongblackcoffee')}
+]
+};
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/dojo/1.12.2/dojo/dojo.js" data-dojo-config="async: true"></script>
+<script>
+       require([
+            "dojo/parser",
+            "dijit/form/Form","dijit/form/Select", "dijit/form/Button","dojo/domReady!"
+       ], function(parser) {
+           parser.parse();
+       });
+</script>
+
+<h1>strongblackcoffee/dijit/MultiSelect</h1>
+
+<p>Current value:</p>  
+<div id="form1-value">
+</div>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="form1">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('form1-value').innerHTML = "<pre>" + JSON.stringify(form1.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+  <div data-dojo-type="strongblackcoffee/dijits/widget/SimpleFormWidget" name="zample1">
+  </div>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+</body>
+</html>
+
