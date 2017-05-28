@@ -1,14 +1,21 @@
 define(["dojo/_base/declare",
-        "dijit/_WidgetBase",
+	"dojo/dom",
+	"dojo/dom-construct",
+	"dojo/query",
+	"dijit/registry",
+	"dijit/_WidgetBase",
         "dijit/_TemplatedMixin",
-        "dojo/store/JsonRest",
-        "dojo/data/ObjectStore",
-        "dojo/text!./templates/MultiSelect.html"
-], function(declare, WidgetBase, TemplatedMixin, JsonRest, ObjectStore, template){
+	"dijit/form/_FormValueMixin",
+	"dojo/store/JsonRest",
+	"dojo/data/ObjectStore",
+	"dojo/text!./templates/MultiSelect.html"
+], function( declare, dom, domConstruct, query, registry, WidgetBase, TemplatedMixin, FormValueMixin, JsonRest, ObjectStore, template){
     // module:
     //		strongblackcoffee/dijit/MultiSelect
     //
-           
+
+    
+   //return declare([WidgetBase,TemplatedMixin,FormValueMixin],{
     return declare([WidgetBase,TemplatedMixin],{
 	// summary:
 	//	Moves items between candidate list and selected list.
@@ -40,20 +47,93 @@ define(["dojo/_base/declare",
 	// selectedSize: Integer
 	//	Height, in rows, of the candidates and selected lists.
 	selectSize: 7,
+	selectWidth: '12em',
     
 	templateString: template,
 
-	constructor: function() {
-	    console.log("***** MultiSelect constructor *****");
+
+	constructor: function(params,srcNodeRef) {
+	    console.log("constructor");
+	    this.universe = query("option",srcNodeRef);
 	},
 
-	chosenAdd: function() { console.log("chosenAdd"); return false; },
 
-	chosenRemove: function() { console.log("chosenAdd"); return false; },
+
+        _setValueAttr: function(newValue, priorityChange){
+	    // param: newValue
+	    //		An array of {value}, where {value} is as in <option value="{value}">
+	    //		
+            this.inherited(arguments);
+	    console.log("_setValueAttr: " + JSON.stringify(newValue));
+
+	    domConstruct.empty(this.selectedOptionList);
+	    domConstruct.empty(this.unselectedOptionList);
+	    for (var i=0; i < this.universe.length; ++i) {
+		var opt = this.universe[i];
+		var isselected = false;
+		for (var j=0; j < newValue.length; ++j) {
+		    if (opt.value == newValue[j]) {
+			isselected = true;
+			break;
+		    }
+		}
+		console.log("opt " + opt.value + " is " + (isselected?"selected":"not selected"));
+		opt.selected = false;
+
+		if (isselected) {
+		    this.selectedOptionList.appendChild(opt);
+		} else {
+		    this.unselectedOptionList.appendChild(opt);
+		}
+
+	    }
+	},
+
+
+
+	debugPrintUniverse: function() {
+	    for (var i=0; i < this.universe.length; ++i) {
+		var opt = this.universe[i];
+		console.log("==> \"" + opt.value + "\" [" + opt.text + "]" + (opt.selected?" selected":""));
+	    }
+	},
+
+
+
 
 	postCreate: function() {
-            this.initialCandidateList.innerHTML = "<option>dog</option><option>cat</option>";
             this.inherited(arguments);
+	    var initialValues = [];
+	    for (var i=0; i < this.universe.length; ++i) {
+		if (this.universe[i].selected) {
+		    initialValues.push(this.universe[i].value);
+		}
+	    }
+	    this.set("value",initialValues);
+	},
+
+
+
+	moveSelectedToUnselected: function() {
+	    console.log("moveSelectedToUnselected");
+	    
+	    var chosens = query("option",this.id+"-slist").filter(function(n){return n.selected});
+	    if (chosens.length == 0) return;
+
+	    var j=0;
+	    for (var i=0; i < this.universe.length; ++i) {
+		console.log("comparing "+chosens[j].value+" vs "+ this.universe[i].value);
+		if (chosens[j].value == this.universe[i].value) {
+		    console.log("unselecting " + this.universe[i].value + "["+this.universe[i].text+"]");
+		    this.universe[i].selected = false;
+		    if (++j >= chosens.length) break;
+		}
+	    }
+	    this.debugPrintUniverse();
+	    this.updateSelectionLists();
+	},
+
+	moveUnselectedToSelected: function() { 
 	},
 
     });

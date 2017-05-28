@@ -43,14 +43,19 @@ packages: [
     require([
         'dojo/dom'
     ],function(dom){
-        dom.byId('sel1-value').innerHTML = "<pre>" + JSON.stringify(sel1form.getValues()) + "</pre>";
-        if (this.validate()) {
-        }
+      var sel1value = [];
+      var opts = dom.byId('sel1').selectedOptions;
+      console.log("selected option count: " + opts.length);
+      for (var i=0; i != opts.length; ++i) {
+        console.log("opts["+i+"] is "+opts[i].value);
+        sel1value.push(opts[i].value);
+      }
+      dom.byId('sel1-value').innerHTML = "<pre>" + JSON.stringify({'sel1':sel1value}) + "</pre>";
     });
     false;
   </script>
   <label for="sel1"/>
-  <select multiple="true" name="sel1">
+  <select multiple="true" id="sel1">
     <option value="H">Hydrogen</option>
     <option value="He">Helium</option>
     <option value="Li">Lithium</option>
@@ -65,6 +70,7 @@ packages: [
     <option value="Mg">Magnesium</option>
   </select>
   <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
   <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
 </form>
 
@@ -86,7 +92,7 @@ packages: [
   </script>
   <label for="sel2"/>
   <select data-dojo-type="dijit/form/Select" multiple="true" name="sel2">
-    <option value="H">Hydrogen</option>
+    <option value="H" selected="selected">Hydrogen</option>
     <option value="He">Helium</option>
     <option value="Li">Lithium</option>
     <option value="Be">Beryllium</option>
@@ -100,6 +106,7 @@ packages: [
     <option value="Mg">Magnesium</option>
   </select>
   <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
   <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
 </form>
 
@@ -136,6 +143,7 @@ packages: [
     <option value="Mg">Magnesium</option>
   </select>
   <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
   <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
 </form>
 
@@ -160,8 +168,8 @@ packages: [
     <option value="H">Hydrogen</option>
     <option value="He">Helium</option>
     <option value="Li">Lithium</option>
-    <option value="Be">Beryllium</option>
-    <option value="B">Boron</option>
+    <option value="Be" selected="selected">Beryllium</option>
+    <option value="B" selected="selected">Boron</option>
     <option value="C">Carbon</option>
     <option value="N">Nitrogen</option>
     <option value="O">Oxygen</option>
@@ -171,14 +179,13 @@ packages: [
     <option value="Mg">Magnesium</option>
   </select>
   <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
   <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
 </form>
 
 <p>Current value:</p>  
 <div id="sel4-value">
 </div>
-
-
 
 </body>
 </html>

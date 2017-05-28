@@ -1,16 +1,16 @@
 <table>
   <tr>
-    <td align="center">
+    <td align="center" width="40%">
       <label for="${name}-clist">${candidatesLabel}</label><br/>
-      <select multiple='true' size='${selectSize}' name="${name}-clist" data-dojo-attach-point="initialCandidateList"></select>
+      <select multiple='true' size='${selectSize}' style='width: ${selectWidth}' id="${id}-clist" data-dojo-attach-point="unselectedOptionList"></select>
     </td>
-    <td>
-      <button data-dojo-attach-event="onclick: chosenAdd" type="button">&lt;</button>
-      <button data-dojo-attach-event="onclick: chosenRemove" type="button">&gt;</button>
+    <td align="center" width="20%">
+      <button data-dojo-attach-event="onclick: moveSelectedToUnselected" type="button">&lt;</button>
+      <button data-dojo-attach-event="onclick: moveUnselectedToSelected" type="button">&gt;</button>
     </td>
-    <td align="center">
-      <label for="${name}-slist">selected</label><br/>
-      <select multiple='true' size='${selectSize}' name="${name}-slist"></select>
+    <td align="center" width="40%">
+      <label for="${name}-slist">${selectedLabel}</label><br/>
+      <select multiple='true' size='${selectSize}' style='width: ${selectWidth};' id="${id}-slist" data-dojo-attach-point="selectedOptionList"></select>
     </td>
   </tr>
 </table>
