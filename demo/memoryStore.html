@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.12.2/dijit/themes/claro/claro.css">
+</head>
+<body class="claro">
+<script>
+var dojoConfig={
+packages: [
+    {name: 'strongblackcoffee', location: location.pathname.replace(/\/[^/]+$/,'/../strongblackcoffee')}
+]
+};
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/dojo/1.12.2/dojo/dojo.js" data-dojo-config="async: true"></script>
+<script>
+       require([
+            "dojo/parser",
+            "dijit/form/Form","dijit/form/Select", "dijit/form/Button", "dojo/domReady!"
+       ], function(parser) {
+           parser.parse();
+       });
+</script>
+ 
+
+<h2>dijit/form/Select</h2>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel2form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel2-value').innerHTML = "<pre>" + JSON.stringify(sel2form.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+
+  <p>Current value: <span id="sel2-value">Submit hasn't been clicked yet!</span></p>
+  
+  <label for="sel2"/>
+  <div data-dojo-type="dojo/store/Memory" data-dojo-id="sel2store"
+       data-dojo-props="data:[
+         { id: 'H', label: 'Hydrogen'}, 
+         { id: 'He',label: 'Helium'  }, 
+         { id: 'Li',label: 'Lithium'  }, 
+         { id: 'Be',label: 'Beryllium', selected: true }, 
+         { id: 'B', label: 'Boron'  }, 
+         { id: 'C', label: 'Carbon'  }, 
+         { id: 'N', label: 'Nitrogen'  }, 
+         { id: 'O', label: 'Oxygen'  },
+    ]"></div>
+    <div data-dojo-type="dojo/data/ObjectStore" data-dojo-id="sel2objstore" data-dojo-props="objectStore: sel2store"/>
+    
+  <select data-dojo-type="dijit/form/Select" multiple="true" name="sel2" 
+        data-dojo-props="store: sel2objstore">
+  </select>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+ 
+
+<h2>dijit/form/Select</h2>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel3form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel3-value').innerHTML = "<pre>" + JSON.stringify(sel3form.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+
+  <p>Current value: <span id="sel3-value">Submit hasn't been clicked yet!</span></p>
+  
+  <div id="sel3select"></div>
+  <script>
+  require([
+      "dojo/store/Memory",
+      "dijit/form/Select",
+      "dojo/domReady!"
+  ],function(Memory,Select){
+    var store = new Memory({
+      data: [
+         { id: 'H', label: 'Hydrogen'}, 
+         { id: 'He',label: 'Helium'  }, 
+         { id: 'Li',label: 'Lithium'  }, 
+         { id: 'Be',label: 'Beryllium', selected: true }, 
+         { id: 'B', label: 'Boron'  }, 
+         { id: 'C', label: 'Carbon'  }, 
+         { id: 'N', label: 'Nitrogen'  }, 
+         { id: 'O', label: 'Oxygen'  },
+      ],
+    });
+    new Select({
+      name: "sel3",
+      store: store,
+      labelAttr: "label",
+    },"sel3select").startup();
+  });
+  </script>
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+
+<h2>strongblackcoffee/dijit/Select</h2>
+
+<div data-dojo-type="dijit/form/Form" data-dojo-id="sel4form">
+  <script type="dojo/on" data-dojo-event="submit" data-dojo-args="e">
+    e.preventDefault();
+    require([
+        'dojo/dom'
+    ],function(dom){
+        dom.byId('sel4-value').innerHTML = "<pre>" + JSON.stringify(sel4form.getValues()) + "</pre>";
+    });
+    false;
+  </script>
+
+  <p>Current value: <span id="sel4-value">Submit hasn't been clicked yet!</span></p>
+    
+  <div id="sel4select"></div>
+  <script>
+  require([
+      "dojo/store/Memory",
+      "strongblackcoffee/dijits/MultiSelect",
+      "dojo/domReady!"
+  ],function(Memory,Select){
+    var store = new Memory({
+      data: [
+         { value: 'H', label: 'Hydrogen'}, 
+         { value: 'He',label: 'Helium'  }, 
+         { value: 'Li',label: 'Lithium'  }, 
+         { value: 'Be',label: 'Beryllium', selected: true }, 
+         { value: 'B', label: 'Boron'  }, 
+         { value: 'C', label: 'Carbon'  }, 
+         { value: 'N', label: 'Nitrogen' }, 
+         { value: 'O', label: 'Oxygen'  },
+      ],
+    });
+    new Select({
+      name: "sel4",
+      store: store,
+      labelAttr: "label",
+    },"sel4select").startup();
+  });
+  </script>
+
+  <p/>
+  <button data-dojo-type="dijit/form/Button" type="reset">Reset</button>
+  <button data-dojo-type="dijit/form/Button" type="submit">Submit</button>
+</form>
+</div>
+-->
+
+</body>
+</html>
+

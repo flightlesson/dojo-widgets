@@ -45,10 +45,6 @@ define(["dojo/_base/declare",
 	//	Reset doesn't work
 	//	
 
-
-
-
-	
 	//
 	// name: String
 	//	The form variable's name.
@@ -68,6 +64,8 @@ define(["dojo/_base/declare",
 	selectWidth: '12em',
     
 	templateString: template,
+
+	//store: null,
 
 	constructor: function(params,srcNodeRef) {
 	    this.optionsUniverse = [];
@@ -101,11 +99,19 @@ define(["dojo/_base/declare",
             this.inherited(arguments);
 	    console.log("optionsUniverse is "+JSON.stringify(this.optionsUniverse));
 
-	    var opts = this.optionsUniverse;
-
 	    // add options from store
+	    if (this.store) {
+		console.log("adding options from store");
+		var optlist = this.optionsUniverse;
+		var q = this.store.query(this.query,this.queryOpts);
+		console.log("q is " + q);
+		q.forEach(function(opt){
+		    console.log("adding option " + JSON.stringify(opt));
+		    optlist.push(opt);
+		});
+	    }
 
-	    // set value
+	    console.log("After adding options from store, this.optionsUniverse: " + JSON.stringify(this.optionsUniverse));
 
 	    this.drawInternalSelects();
 	    console.log("leaving postCreate");
@@ -114,16 +120,16 @@ define(["dojo/_base/declare",
 	_moveSelecteds: function(fromListId,toListId,becomeSelected) {
 
 	    var moveThese = query("option",fromListId).filter(function(x){return x.selected});
-	    //console.log("_moveSelecteds: moveThese.length is " + moveThese.length);
+	    console.log("_moveSelecteds: moveThese.length is " + moveThese.length);
 	    if (moveThese.length == 0) return;
 
-	    //for (var j=0; j < moveThese.length; ++j) {
-	    //	console.log("_moveSelecteds: moveThese["+j+"] value=" + moveThese[j].value + ", selected=" + moveThese[j].selected);
-	    //}
+	    for (var j=0; j < moveThese.length; ++j) {
+	    	console.log("_moveSelecteds: moveThese["+j+"] value=" + moveThese[j].value + ", selected=" + moveThese[j].selected);
+	    }
 
 	    for (var i=0; i < this.optionsUniverse.length; ++i) {
 		var opt = this.optionsUniverse[i];
-		//console.log("_moveSelecteds: opt is " + JSON.stringify(opt));
+		console.log("_moveSelecteds: opt is " + JSON.stringify(opt));
 		var inMoveThese = false;
 		for (var j=0; j < moveThese.length; ++j) {
 		    if (opt.value == moveThese[j].value) {
@@ -141,12 +147,12 @@ define(["dojo/_base/declare",
 	},
 
 	moveSelectedToUnselected: function() {
-	    //console.log("moveSelectedToUnselected");
+	    console.log("moveSelectedToUnselected");
 	    this._moveSelecteds(this.id+"-slist",this.id+"-clist",false);
 	},
 
 	moveUnselectedToSelected: function() { 
-	    //console.log("moveUnselectedToSelected");
+	    console.log("moveUnselectedToSelected");
 	    this._moveSelecteds(this.id+"-clist",this.id+"-slist",true);
 	},
 
