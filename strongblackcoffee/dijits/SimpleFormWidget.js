@@ -4,16 +4,16 @@ define([
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/text!./templates/SimpleFormWidget.html",
-],function(declare,dom,WidgetBase,TemplatedMixin,template){
-    return declare([WidgetBase,TemplatedMixin],{
+],function(declare,dom,_WidgetBase,_TemplatedMixin,template){
+    return declare([_WidgetBase,_TemplatedMixin],{
 	labelA: "A",
 	labelB: "B",
 	templateString: template,
 
-	//_setValueAttr: function(newValue) {
-	//    this.inherited(arguments);
-	//    dom.byId(this.id+"-curval").innerHTML = newValue;
-	//},
+	postCreate: function() {
+	    this.inherited(arguments);
+	    dom.byId(this.id+"-disp").innerHTML = "start clicking";
+	},
 
 	clickedA: function() {
 	    dom.byId(this.id+"-disp").innerHTML = "A was clicked";

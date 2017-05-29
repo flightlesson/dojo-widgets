@@ -1,36 +1,55 @@
 define(["dojo/_base/declare",
 	"dojo/dom",
 	"dojo/dom-construct",
+	"dojo/_base/array",
 	"dojo/query",
 	"dijit/registry",
 	"dijit/_WidgetBase",
         "dijit/_TemplatedMixin",
-	"dijit/form/_FormValueMixin",
-	"dojo/store/JsonRest",
-	"dojo/data/ObjectStore",
 	"dojo/text!./templates/MultiSelect.html"
-], function( declare, dom, domConstruct, query, registry, WidgetBase, TemplatedMixin, FormValueMixin, JsonRest, ObjectStore, template){
+], function( declare, dom, domConstruct, array, query, registry, WidgetBase, TemplatedMixin, template){
     // module:
     //		strongblackcoffee/dijit/MultiSelect
     //
 
     
-    return declare([WidgetBase,TemplatedMixin,FormValueMixin],{
+    return declare([WidgetBase,TemplatedMixin],{
 	// summary:
 	//	Moves items between candidate list and selected list.
 	//
 	// example:
 	// |	<select data-dojo-type="strongblackcoffee/dijit/MultiSelect">
+	// |	  <option id="H">Hydrogen</option>
 	// |	  <option id="He" selected="true">Helium</option>
 	// |	  <option id="Ne" selected="true">Neon</option>
 	// |	  <option id="Ar">Argon</option>
 	// |	  <option id="Kr">Krypton</option>
 	// |	  <option id="Xe">Xeon</option>
 	// |	  <option id="Rn">Radon</option>
-	// |	  <option id="Og">Oganesson</option>
 	// |	</select>
 	//
+	// example:
+	// |    <!-- store returns a JSON string like:
+	// |	     [{"value":"H","label":"Hydrogen","selected":false},
+	// |	      {"value":"He","label":"Helium","selected":true},
+	// |	      {"value":"Ne","label":"Neon","selected":true},
+	// |	      {"value":"Ar","label":"Argon","selected":false},
+	// |	      {"value":"Kr","label":"Krypton","selected":false},
+	// |	      {"value":"Xe","label":"Xeon","selected":false},
+	// |	      {"value":"Rn","label":"Radon","selected":false}]
+	// |    -->
+	// |	<select data-dojo-type="strongblackcoffee/digit/MultiSelect"
+	// |            data-dojo-options="store: myStore"><select>
+	//
+	// TODO:
+	//	Reset doesn't work
+	//	
 
+
+
+
+	
+	//
 	// name: String
 	//	The form variable's name.
 	name: "you-didnt-set-me",
@@ -50,101 +69,85 @@ define(["dojo/_base/declare",
     
 	templateString: template,
 
-	options: null,
-	addOption: function(opts) {
-	    // summary:
-	    //		When opts is an HTMLoption node:
-	    //          When opts is an array of HTMLoption node:
-	    //          When opts is a {value:"v",label:'x',selected:false} object:
-	    //          When opts is an array of {value:"v",label:'x',selected:false} objects:
-	    //          When opts is nil:
-	    array.forEach(lang.isArrayLike(opts) ? opts : [opts], function(opt) {this._addOption(opt);});
-	},
-	_addOption: function(opt) {
-	},
-
 	constructor: function(params,srcNodeRef) {
-	    console.log("constructor");
-	    this.universe = query("option",srcNodeRef);
+	    this.optionsUniverse = [];
+	    var opts = this.optionsUniverse;
+	    array.forEach(query("option",srcNodeRef),function(opt){
+		opts.push({value:opt.value,label:opt.label,selected:opt.selected});
+	    });
 	},
 
-
-
-        _setValueAttr: function(newValue, priorityChange){
-	    // param: newValue
-	    //		An array of {value}, where {value} is as in <option value="{value}">
-	    //		
-            this.inherited(arguments);
-	    console.log("_setValueAttr: " + JSON.stringify(newValue));
-
+	drawInternalSelects: function() {
+	    //console.log("drawInternalSelects: " + this.optionsUniverse.length);
 	    domConstruct.empty(this.selectedOptionList);
 	    domConstruct.empty(this.unselectedOptionList);
-	    for (var i=0; i < this.universe.length; ++i) {
-		var opt = this.universe[i];
-		var isselected = false;
-		for (var j=0; j < newValue.length; ++j) {
-		    if (opt.value == newValue[j]) {
-			isselected = true;
-			break;
-		    }
-		}
-		console.log("opt " + opt.value + " is " + (isselected?"selected":"not selected"));
-		opt.selected = false;
-
-		if (isselected) {
-		    this.selectedOptionList.appendChild(opt);
+	    var newValue = [];
+	    for (var i=0; i < this.optionsUniverse.length; ++i) {
+		var opt = this.optionsUniverse[i];
+		//console.log("opt is " + JSON.stringify(opt));
+		var node = domConstruct.toDom("<option value="+opt.value+">"+opt.label+"</option>");
+		//console.log("node is " + node);
+		if (opt.selected) {
+		    this.selectedOptionList.appendChild(node);
+		    newValue.push(opt.value);
 		} else {
-		    this.unselectedOptionList.appendChild(opt);
+		    this.unselectedOptionList.appendChild(node);
 		}
-
 	    }
+	    this.set("value",newValue);
 	},
-
-
-
-	debugPrintUniverse: function() {
-	    for (var i=0; i < this.universe.length; ++i) {
-		var opt = this.universe[i];
-		console.log("==> \"" + opt.value + "\" [" + opt.text + "]" + (opt.selected?" selected":""));
-	    }
-	},
-
-
-
 
 	postCreate: function() {
             this.inherited(arguments);
-	    var initialValues = [];
-	    for (var i=0; i < this.universe.length; ++i) {
-		if (this.universe[i].selected) {
-		    initialValues.push(this.universe[i].value);
-		}
-	    }
-	    this.set("value",initialValues);
+	    console.log("optionsUniverse is "+JSON.stringify(this.optionsUniverse));
+
+	    var opts = this.optionsUniverse;
+
+	    // add options from store
+
+	    // set value
+
+	    this.drawInternalSelects();
+	    console.log("leaving postCreate");
 	},
 
+	_moveSelecteds: function(fromListId,toListId,becomeSelected) {
 
+	    var moveThese = query("option",fromListId).filter(function(x){return x.selected});
+	    //console.log("_moveSelecteds: moveThese.length is " + moveThese.length);
+	    if (moveThese.length == 0) return;
 
-	moveSelectedToUnselected: function() {
-	    console.log("moveSelectedToUnselected");
-	    
-	    var chosens = query("option",this.id+"-slist").filter(function(n){return n.selected});
-	    if (chosens.length == 0) return;
+	    //for (var j=0; j < moveThese.length; ++j) {
+	    //	console.log("_moveSelecteds: moveThese["+j+"] value=" + moveThese[j].value + ", selected=" + moveThese[j].selected);
+	    //}
 
-	    var j=0;
-	    for (var i=0; i < this.universe.length; ++i) {
-		console.log("comparing "+chosens[j].value+" vs "+ this.universe[i].value);
-		if (chosens[j].value == this.universe[i].value) {
-		    console.log("unselecting " + this.universe[i].value + "["+this.universe[i].text+"]");
-		    this.universe[i].selected = false;
-		    if (++j >= chosens.length) break;
+	    for (var i=0; i < this.optionsUniverse.length; ++i) {
+		var opt = this.optionsUniverse[i];
+		//console.log("_moveSelecteds: opt is " + JSON.stringify(opt));
+		var inMoveThese = false;
+		for (var j=0; j < moveThese.length; ++j) {
+		    if (opt.value == moveThese[j].value) {
+			inMoveThese = true;
+			break;
+		    }
+		}
+
+		if (inMoveThese) {
+		    //console.log("Changing "+opt.value+" from "+opt.selected+" to "+becomeSelected);
+		    opt.selected = becomeSelected;
 		}
 	    }
-	    this.debugPrintUniverse();
-	    this.updateSelectionLists();
+	    this.drawInternalSelects();
+	},
+
+	moveSelectedToUnselected: function() {
+	    //console.log("moveSelectedToUnselected");
+	    this._moveSelecteds(this.id+"-slist",this.id+"-clist",false);
 	},
 
 	moveUnselectedToSelected: function() { 
+	    //console.log("moveUnselectedToSelected");
+	    this._moveSelecteds(this.id+"-clist",this.id+"-slist",true);
 	},
 
     });
