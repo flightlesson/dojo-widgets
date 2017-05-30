@@ -9,7 +9,7 @@ define(["dojo/_base/declare",
 	"dojo/text!./templates/MultiSelect.html"
 ], function( declare, dom, domConstruct, array, query, registry, WidgetBase, TemplatedMixin, template){
     // module:
-    //		strongblackcoffee/dijit/MultiSelect
+    //		strongblackcoffee/widgets/MultiSelect
     //
 
     
@@ -18,7 +18,7 @@ define(["dojo/_base/declare",
 	//	Moves items between candidate list and selected list.
 	//
 	// example:
-	// |	<select data-dojo-type="strongblackcoffee/dijit/MultiSelect">
+	// |	<select data-dojo-type="strongblackcoffee/widgets/MultiSelect">
 	// |	  <option id="H">Hydrogen</option>
 	// |	  <option id="He" selected="true">Helium</option>
 	// |	  <option id="Ne" selected="true">Neon</option>
@@ -38,7 +38,7 @@ define(["dojo/_base/declare",
 	// |	      {"value":"Xe","label":"Xeon","selected":false},
 	// |	      {"value":"Rn","label":"Radon","selected":false}]
 	// |    -->
-	// |	<select data-dojo-type="strongblackcoffee/digit/MultiSelect"
+	// |	<select data-dojo-type="strongblackcoffee/widgets/MultiSelect"
 	// |            data-dojo-options="store: myStore"><select>
 	//
 	// TODO:
