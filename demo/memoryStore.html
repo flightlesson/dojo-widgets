@@ -127,7 +127,7 @@ packages: [
       "dojo/store/Memory",
       "strongblackcoffee/widgets/MultiSelect",
       "dojo/domReady!"
-  ],function(Memory,Select){
+  ],function(Memory,MultiSelect){
     var store = new Memory({
       data: [
          { value: 'H', label: 'Hydrogen'}, 
@@ -140,7 +140,7 @@ packages: [
          { value: 'O', label: 'Oxygen'  },
       ],
     });
-    new Select({
+    new MultiSelect({
       name: "sel4",
       store: store,
       labelAttr: "label",
